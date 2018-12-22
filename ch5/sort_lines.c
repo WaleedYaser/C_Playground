@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "alloc.h"
 
 #define MAXLINE		5000			/* max lines to be sorted */
@@ -19,15 +20,23 @@ int main()
 {
 	int nlines;
 
+	clock_t t;
+	double time_taken;
+
+	t = clock();
 	if ((nlines = areadlines(lineptr, MAXLINE)) >= 0) {
 		qsort(lineptr, 0, nlines - 1);
 		writelines(lineptr, nlines);
-		return 0;
 	} else {
 		printf("error: input too big to sort\n");
 		return 1;
 	}
+	t = clock() - t;
+	time_taken = ((double) t) / CLOCKS_PER_SEC;		// in seconds
+	printf("%f\n", time_taken);
 
+
+	t = clock();
 	char s[MAXLINE][MAXLEN];
 
 	for (int i = 0; i < MAXLINE; ++i)
@@ -36,11 +45,13 @@ int main()
 	if ((nlines = readlines(blineptr, MAXLINE, MAXLEN)) >= 0) {
 		qsort(blineptr, 0, nlines - 1);
 		writelines(blineptr, nlines);
-		return 0;
 	} else {
 		printf("error: input too big to sort\n");
 		return 1;
 	}
+	t = clock() - t;
+	time_taken = ((double) t) / CLOCKS_PER_SEC;		// in seconds
+	printf("%f\n", time_taken);
 }
 
 int get_line(char *, int);
@@ -70,6 +81,7 @@ int readlines(char **lineptr, int maxlines, int maxlen)
 {
 	int len, nlines;
 
+	nlines = 0;
 	while ((len = get_line(lineptr[nlines], maxlen)) > 0) {
 		if (nlines >= maxlines)
 			return -1;
