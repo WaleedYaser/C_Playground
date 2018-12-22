@@ -1,0 +1,6 @@
+Hello there,
+my name is Waleed
+I am 24 years old
+I work as a software engineer
+I love c and c++ programming languages
+I also love graphics engineering
