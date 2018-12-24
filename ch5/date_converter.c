@@ -2,6 +2,7 @@
 
 int day_of_year(int year, int month, int day);
 int month_day(int year, int yearday, int *pmonth, int *pday);
+char * month_name(int n);
 
 int main()
 {
@@ -14,7 +15,7 @@ int main()
 
 	int m, d;
 	if(month_day(1988, 51, &m, &d))
-		printf("%d %d\n", m, d);
+		printf("%s %d\n", month_name(m), d);
 	else
 		printf("error: wrong month_day input");
 }
@@ -58,4 +59,18 @@ int month_day(int year, int yearday, int *pmonth, int *pday)
 	*pday = yearday;
 
 	return 1;
+}
+
+/* month_name: return name of n-th month */
+char * month_name(int n)
+{
+	static char *name[] = {
+		"Illegal month",
+		"January", "February", "March",
+		"April", "May", "June",
+		"July", "August", "September",
+		"October", "November", "December"
+	};
+
+	return (n < 1 || n > 12) ? name[0] : name[n];
 }
