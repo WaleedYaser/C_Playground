@@ -2,5 +2,5 @@
 9 my name is Waleed
 1 I am 24 years old
 4 I work as a software engineer
-I love c and c++ programming languages
-I also love graphics engineering
+i love c and c++ programming languages
+I Love graphics engineering

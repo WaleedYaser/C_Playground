@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "lines.h"
 
@@ -13,6 +14,7 @@ void writelines(char *lineptr[], int nlines);
 void q_sort(void *lineptr[], int left, int right,
 		int (*comp)(void *, void *), int reverse);
 int numcmp(char *, char *);
+int fstrcmp(const char *s1, const char *s2);
 
 /* sort input lines */
 int main(int argc, char *argv[])
@@ -20,6 +22,7 @@ int main(int argc, char *argv[])
 	int nlines;						/* number of input lines read */
 	int numeric = 0;				/* 1 if numeric sort */
 	int reverse = 1;				/* -1 if reverse sort */
+	int fold = 0;					/* 1 if fold sort */
 
 	int c;
 	while (--argc > 0 && (*++argv)[0] == '-')
@@ -31,6 +34,9 @@ int main(int argc, char *argv[])
 				case 'r': case 'R':
 					reverse = -1;
 					break;
+				case 'f': case 'F':
+					fold = 1;
+					break;
 				default:
 					printf("find illegal option %c\n", c);
 					return 1;
@@ -39,13 +45,21 @@ int main(int argc, char *argv[])
 
 	if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
 		q_sort((void **) lineptr, 0, nlines - 1,
-				(int (*)(void *, void *))(numeric ? numcmp : strcmp), reverse);
+				(int (*)(void *, void *))(numeric ? numcmp : (fold ? fstrcmp : strcmp)), reverse);
 		writelines(lineptr, nlines);
 		return 0;
 	} else {
 		printf("input too big to sort\n");
 		return 1;
 	}
+}
+
+/* fstrcmp: compare s1 & s2 ignoring case distiction */
+int fstrcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (tolower(*s1) == tolower(*s2)))
+		s1++, s2++;
+	return tolower(*(const unsigned char *)s1) - tolower(*(const unsigned char *)s2);
 }
 
 /* q_sort: sort v[left]...v[right] int increasing order */
