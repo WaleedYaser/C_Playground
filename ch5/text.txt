@@ -1,6 +1,7 @@
-7 Hello there,
-9 my name is Waleed
-1 I am 24 years old
-4 I work as a software engineer
-i love c and c++ programming languages
-I Love graphics engineering
+char **argv
+int (*daytab)[13]
+int *daytab[13]
+void *comp()
+void (*comp)()
+char (*(*x())[])()
+char (*(*x[3])())[5]
