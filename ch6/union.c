@@ -26,6 +26,12 @@ union u_tag {
 	char	*sval;
 } u;
 
+struct {
+	unsigned int is_keyword : 1;
+	unsigned int is_extern  : 1;
+	unsigned int is_static  : 1;
+} flags; /*field called flags */
+
 int main()
 {
 	printf("size of int: %u\n", sizeof(int));
@@ -47,4 +53,9 @@ int main()
 		printf("value of u: %s\n", symtab[0].u.sval);
 	else
 		printf("bad type %d in utype\n", symtab[0].utype);
+
+	printf("size of flags: %u\n", sizeof flags);
+	flags.is_extern = flags.is_static = 1;
+	if (flags.is_extern && flags.is_static)
+		printf("is extern and static\n");
 }
